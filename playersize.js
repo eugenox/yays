@@ -10,10 +10,6 @@ function PlayerSize(player) {
 #define PLAYER_HEIGHT  480
 #define CONTROL_HEIGHT  30
 
-#define SCALE (CONTENT_WIDTH / PLAYER_WIDTH)
-#define TRANSLATE(dimension) ((SCALE - 1) / 2 * dimension)
-#define TRANSFORM (SCALE, 0, 0, SCALE, TRANSLATE(PLAYER_WIDTH), TRANSLATE(PLAYER_HEIGHT))
-
 PlayerSize.prototype = extend(PlayerOption, {
 	apply: function() {
 		var mode = this.get();
@@ -33,16 +29,6 @@ PlayerSize.prototype = extend(PlayerOption, {
 						'}',
 						'.watch-medium .player-height {',
 							CONCATENATE('height: ', EVALUATE(CONTENT_WIDTH / (PLAYER_WIDTH / PLAYER_HEIGHT) + CONTROL_HEIGHT), 'px !important;'),
-						'}',
-						'.watch-medium .html5-video-content,',
-						'.watch-medium .html5-main-video {',
-							CONCATENATE('transform: matrix', EVALUATE(TRANSFORM), ' !important;'),
-							CONCATENATE('-o-transform: matrix', EVALUATE(TRANSFORM), ' !important;'),
-							CONCATENATE('-moz-transform: matrix', EVALUATE(TRANSFORM), ' !important;'),
-							CONCATENATE('-webkit-transform: matrix', EVALUATE(TRANSFORM), ' !important;'),
-						'}',
-						'.watch-medium .html5-main-video {',
-							'z-index: -1;',
 						'}'
 					]
 				});
