@@ -23,6 +23,10 @@ merge(Player, {
 
 	instance: null,
 
+	test: function(element) {
+		return typeof element.getApiInterface == 'function';
+	},
+
 	create: function(element) {
 		switch (element.tagName) {
 			case 'EMBED':
@@ -35,10 +39,6 @@ merge(Player, {
 	},
 
 	initialize: function(element) {
-		if (! element) {
-			throw 'Invalid player element';
-		}
-
 		if (this.instance) {
 			if (this.instance._element === element) {
 				throw 'Player already initialized';

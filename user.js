@@ -111,28 +111,26 @@ function onReady(player) {
 	});
 }
 
-function findPlayerNode() {
-	function findApiNode(nodes) {
-		for (var i = 0, node; node = nodes.item(i); ++i) {
-			do {
-				if (node.hasAttribute('id') && node.getAttribute('id').indexOf('player') > -1) {
-					return node;
-				}
-			}
-			while ((node = node.parentNode) && node.nodeType == DH.ELEMENT_NODE);
-		}
-
-		return null;
-	}
-
-	return findApiNode(DH.tagName('video')) || findApiNode(DH.tagName('embed'));
-}
-
 function onPlayerReady() {
 	try {
-		var player = Player.initialize(DH.unwrap(findPlayerNode()));
+		each(DH.query('video, embed'), function(i, node) {
+			var player = DH.closest(node, bind(Player.test, Player));
 
-		onReady(player);
+			if (player) {
+				player = Player.initialize(DH.unwrap(player));
+
+				if (player.isVideoLoaded()) {
+					onReady(player);
+
+					throw 'Initialization finished';
+				}
+				else {
+					player.invalidate();
+				}
+			}
+		});
+
+		throw 'Player not found';
 	}
 	catch (e) {
 		Console.debug(e);

@@ -4,30 +4,25 @@
 function VideoPlayback(player) {
 	SilentPlayerOption.call(this, player, 'video_playback');
 
-	if (player.isVideoLoaded()) {
-		switch (this.get()) {
-			case 0: // PLAY
+	switch (this.get()) {
+		case 0: // PLAY
+			this._applied = true;
+			break;
+
+		case 3: // AUTO PAUSE
+		case 4: // AUTO STOP
+			// Video is visible or opened in the same window.
+			if (this._isVisible() || unsafeWindow.history.length > 1) {
 				this._applied = true;
-				break;
+			}
+			// Video is opened in a background tab.
+			else {
+				this._handler = bind(this._handler, this);
 
-			case 3: // AUTO PAUSE
-			case 4: // AUTO STOP
-				// Video is visible or opened in the same window.
-				if (this._isVisible() || unsafeWindow.history.length > 1) {
-					this._applied = true;
-				}
-				// Video is opened in a background tab.
-				else {
-					this._handler = bind(this._handler, this);
-
-					DH.on(unsafeWindow, 'focus', this._handler);
-					DH.on(unsafeWindow, 'blur', this._handler);
-				}
-				break;
-		}
-	}
-	else {
-		this._applied = true;
+				DH.on(unsafeWindow, 'focus', this._handler);
+				DH.on(unsafeWindow, 'blur', this._handler);
+			}
+			break;
 	}
 }
 

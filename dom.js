@@ -37,7 +37,7 @@ var DH = {
 	},
 
 	id: bind(unsafeWindow.document.getElementById, unsafeWindow.document),
-	tagName: bind(unsafeWindow.document.getElementsByTagName, unsafeWindow.document),
+	query: bind(unsafeWindow.document.querySelectorAll, unsafeWindow.document),
 	createElement: bind(unsafeWindow.document.createElement, unsafeWindow.document),
 	createTextNode: bind(unsafeWindow.document.createTextNode, unsafeWindow.document),
 
@@ -131,6 +131,16 @@ var DH = {
 		}
 
 		return node;
+	},
+
+	closest: function(node, predicate) {
+		do {
+			if (predicate(node)) {
+				return node;
+			}
+		} while ((node = node.parentNode) && node.nodeType == this.ELEMENT_NODE);
+
+		return null;
 	},
 
 	ready: function(listener) {

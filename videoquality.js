@@ -4,7 +4,7 @@
 function VideoQuality(player) {
 	SilentPlayerOption.call(this, player, 'video_quality');
 
-	this._applied = ! (player.isVideoLoaded() && this.get());
+	this._applied = ! this.get();
 }
 
 VideoQuality.prototype = extend(SilentPlayerOption, {
