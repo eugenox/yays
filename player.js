@@ -13,6 +13,8 @@ function Player(element) {
 	this._addStateChangeListener();
 }
 
+#define RESTART_THRESHOLD 60
+
 merge(Player, {
 	UNSTARTED: -1,
 	ENDED: 0,
@@ -119,6 +121,12 @@ Player.prototype = {
 	},
 
 	restartPlayback: function() {
+		if (this.getCurrentTime() > RESTART_THRESHOLD) {
+			Console.debug('Restart threshold exceeded');
+
+			return;
+		}
+
 		var
 			code = (location.hash + location.search).match(/\bt=(?:(\d+)h)?(?:(\d+)m)?(?:(\d+)s?)?/) || new Array(4),
 			seconds = (Number(code[1]) || 0) * 3600 + (Number(code[2]) || 0) * 60 + (Number(code[3]) || 0);
