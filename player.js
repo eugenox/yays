@@ -259,15 +259,5 @@ HTML5Player.prototype = extend(Player, {
 		Player.prototype.stopVideo.call(this);
 
 		this._state = Player.CUED;
-	},
-
-	setPlaybackQuality: function(quality) {
-		Player.prototype.setPlaybackQuality.call(this, quality);
-
-		asyncCall(function() {
-			if (this.isPlayerState(Player.PLAYING, Player.BUFFERING)) {
-				this.playVideo();
-			}
-		}, this);
 	}
 });
