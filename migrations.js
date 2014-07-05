@@ -53,8 +53,8 @@
 	], function(i, migration) {
 		var migrationVersion = map(Number, migration.version.split('.'));
 
-		for (var i = 0, parts = Math.max(previousVersion.length, migrationVersion.length); i < parts; ++i) {
-			if ((previousVersion[i] || 0) < (migrationVersion[i] || 0)) {
+		for (var j = 0, parts = Math.max(previousVersion.length, migrationVersion.length); j < parts; ++j) {
+			if ((previousVersion[j] || 0) < (migrationVersion[j] || 0)) {
 				Console.debug('Applying migration', migration.version);
 
 				migration.apply();

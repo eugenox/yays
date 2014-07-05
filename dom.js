@@ -124,10 +124,11 @@ var DH = {
 
 			var selector = /^(\w*)(?:\[(\d+)\])?$/.exec(step), name = selector[1], index = Number(selector[2]) || 0;
 
-			for (var i = 0, j = 0, nodes = node.childNodes; node = nodes.item(i); ++i)
+			for (var i = 0, j = 0, nodes = node.childNodes; node = nodes.item(i); ++i) {
 				if (node.nodeType == this.ELEMENT_NODE && (! name || node.tagName.toLowerCase() == name) && j++ == index) {
 					break;
 				}
+			}
 		}
 
 		return node;

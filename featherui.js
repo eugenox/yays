@@ -43,7 +43,7 @@ FeatherUI.prototype = extend(UI, {
 					'margin-top': '0.5em'
 				},
 				children: UI.prototype._def.panel(content)
-			}
+			};
 		}
 	},
 

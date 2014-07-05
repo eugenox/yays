@@ -21,17 +21,20 @@ function map() {
 	var
 		args = Array.prototype.constructor.apply([], arguments),
 		callback = args.shift() || bind(Array.prototype.constructor, []),
-		results = [];
+		results = [],
+		i, len;
 
 	if (args.length > 1) {
-		var i, getter = function(arg) { return arg[i]; }, len = Math.max.apply(Math, map(function(arg) { return arg.length; }, args));
+		var getter = function(arg) { return arg[i]; };
+		len = Math.max.apply(Math, map(function(arg) { return arg.length; }, args));
 
 		for (i = 0; i < len; ++i) {
 			results.push(callback.apply(null, map(getter, args)));
 		}
 	}
 	else {
-		var i, arg = args[0], len = arg.length;
+		var arg = args[0];
+		len = arg.length;
 
 		for (i = 0; i < len; ++i) {
 			results.push(callback(arg[i]));

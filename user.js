@@ -55,7 +55,7 @@ var Context = unsafeWindow[Meta.ns] = {
 function onReady(player) {
 	var videoPlayback = new VideoPlayback(player), videoQuality = new VideoQuality(player), previousVideo = player.getVideoId();
 
-	player.onStateChange = function(state) {
+	player.onStateChange = function() {
 		try {
 			var currentVideo = player.getVideoId();
 
