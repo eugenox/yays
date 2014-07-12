@@ -45,6 +45,7 @@ PlayerSize.prototype = extend(PlayerOption, {
 				DH.addClass(container, 'watch-wide');
 				DH.delClass(player, 'watch-small');
 				DH.addClass(player, 'watch-medium');
+				DH.delClass(page, 'watch-non-stage-mode');
 				DH.addClass(page, 'watch-stage-mode');
 
 				break;
