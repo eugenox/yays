@@ -3,7 +3,7 @@
  */
 
 function each(iterable, callback, scope) {
-	if (iterable.length) {
+	if ('length' in iterable) {
 		for (var i = 0, len = iterable.length; i < len; ++i) {
 			callback.call(scope, i, iterable[i]);
 		}
