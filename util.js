@@ -97,9 +97,11 @@ function noop() {
 }
 
 function bind(func, scope, args) {
-	return function() {
-		return func.apply(scope, args === undefined ? arguments : args);
-	};
+	if (args && args.length > 0) {
+		return func.bind.apply(func, [scope].concat(args));
+	}
+
+	return func.bind(scope);
 }
 
 function intercept(original, extension) {
@@ -118,7 +120,7 @@ function asyncCall(func, scope, args) {
 
 function asyncProxy(func) {
 	return function() {
-		asyncCall(func, this, arguments);
+		asyncCall(func, this, Array.prototype.slice.call(arguments));
 	};
 }
 
