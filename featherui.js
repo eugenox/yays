@@ -10,6 +10,8 @@ function FeatherUI(buttons) {
 	DH.insertAfter(toolbar, this.panel);
 }
 
+FeatherUI.requirement = new UI.Requirement('div:nth-child(2) > * > * > #movie_player');
+
 FeatherUI.prototype = extend(UI, {
 	_def: {
 		button: function(click) {
@@ -24,12 +26,12 @@ FeatherUI.prototype = extend(UI, {
 				listeners: {
 					'click': click
 				},
-				children: merge({
+				children: UI.prototype._def.icon({
 					style: {
 						'vertical-align': 'sub',
 						'opacity': '0.82'
 					}
-				}, UI.prototype._def.icon)
+				})
 			};
 		},
 

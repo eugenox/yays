@@ -53,7 +53,11 @@ var Context = unsafeWindow[Meta.ns] = {
  */
 
 function onReady(player) {
-	var videoPlayback = new VideoPlayback(player), videoQuality = new VideoQuality(player), previousVideo = player.getVideoId();
+	var
+		videoPlayback = new VideoPlayback(player),
+		videoQuality = new VideoQuality(player),
+		playerSize = new PlayerSize(player),
+		previousVideo = player.getVideoId();
 
 	player.onStateChange = function() {
 		try {
@@ -81,28 +85,31 @@ function onReady(player) {
 	videoPlayback.apply();
 
 	DH.ready(function() {
-		var page = DH.id('page');
+		if (Watch7UI.requirement.test()) {
+			playerSize.apply();
 
-		if (page) {
-			if (DH.hasClass(page, 'watch')) {
-				var playerSize = new PlayerSize(player);
-
-				playerSize.apply();
-
-				UI.initialize(WatchUI, [
-					new VideoQuality.Button(videoQuality),
-					new PlayerSize.Button(playerSize),
-					new VideoPlayback.Button(videoPlayback)
-				]);
-			}
-			else if (DH.hasClass(page, 'channel')) {
-				UI.initialize(ChannelUI, [
-					new VideoQuality.Button(videoQuality),
-					new VideoPlayback.Button(videoPlayback)
-				]);
-			}
+			UI.initialize(Watch7UI, [
+				new VideoQuality.Button(videoQuality),
+				new PlayerSize.Button(playerSize),
+				new VideoPlayback.Button(videoPlayback)
+			]);
 		}
-		else {
+		else if (Watch8UI.requirement.test()) {
+			playerSize.apply();
+
+			UI.initialize(Watch8UI, [
+				new VideoQuality.Button(videoQuality),
+				new PlayerSize.Button(playerSize),
+				new VideoPlayback.Button(videoPlayback)
+			]);
+		}
+		else if (ChannelUI.requirement.test()) {
+			UI.initialize(ChannelUI, [
+				new VideoQuality.Button(videoQuality),
+				new VideoPlayback.Button(videoPlayback)
+			]);
+		}
+		else if (FeatherUI.requirement.test()) {
 			UI.initialize(FeatherUI, [
 				new VideoQuality.Button(videoQuality),
 				new VideoPlayback.Button(videoPlayback)

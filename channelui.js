@@ -10,6 +10,8 @@ function ChannelUI(buttons) {
 	});
 }
 
+ChannelUI.requirement = new UI.Requirement('#page.channel #channel-navigation-menu');
+
 ChannelUI.prototype = extend(UI, {
 	_def: {
 		button: function(click) {
@@ -18,7 +20,7 @@ ChannelUI.prototype = extend(UI, {
 				attributes: {
 					'type': 'button',
 					'role': 'button',
-					'class': 'epic-nav-item-empty yt-uix-button-epic-nav-item yt-uix-button yt-uix-button-empty yt-uix-tooltip flip',
+					'class': 'yt-uix-button yt-uix-button-empty yt-uix-button-epic-nav-item yt-uix-tooltip flip',
 					'data-button-menu-id': 'yays-panel-dropdown',
 					'data-tooltip-text': _('Player settings')
 				},
@@ -38,12 +40,7 @@ ChannelUI.prototype = extend(UI, {
 					style: {
 						'opacity': '0.75'
 					},
-					children: [UI.prototype._def.icon, {
-						tag: 'span',
-						attributes: {
-							'class': 'yt-uix-button-valign'
-						}
-					}]
+					children: UI.prototype._def.icon()
 				}
 			};
 		},

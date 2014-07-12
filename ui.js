@@ -22,16 +22,17 @@ merge(UI, {
 
 UI.prototype = {
 	_def: {
-		icon: {
-			tag: 'img',
-			attributes: {
-				'src': 'data:image/png;base64,\
+		icon: function(def) {
+			def = merge({tag: 'img', attributes: {}}, def);
+
+			def.attributes.src = 'data:image/png;base64,\
 iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAQAAAC1+jfqAAAA4ElEQVQoz32RMU4CQRhG38xqQ0e7\
 CbHCnnxHEM/AEUiIthZegFAYErIhegTuwAWIGYiWWGKypY0bkgUZCxZ2JIuvmnkz8//fzECA2ppq\
 qnbozJ8NOZfA2tVKZwE0lFcGbADwoExeo6KCujxTzb1LLBBxDgsRpK/xmtuK5Uf3BEZvNKgXakEH\
 mNAq5t+sjHxw5tp9gJosT27xHxe8By0m2rc4kPFpAPTAoDJkHyJQj2Fl9Zv4K51Z4OdsgB1YcC8k\
-QO4MOQSjsUvKb9pn2crLa1ua4zOnAMRzrlhxly4PBn4BWEpBljV5iJUAAAAASUVORK5CYII='
-			}
+QO4MOQSjsUvKb9pn2crLa1ua4zOnAMRzrlhxly4PBn4BWEpBljV5iJUAAAAASUVORK5CYII=';
+
+			return def;
 		},
 
 		button: function(click) {
@@ -115,6 +116,21 @@ UI.Content.prototype = {
 
 	refresh: function() {
 		each(this._buttons, function(i, button) { button.refresh(); });
+	}
+};
+
+/**
+ * @class UI.Requirement
+ */
+UI.Requirement = function(queries) {
+	this._queries = [].concat(queries);
+};
+
+UI.Requirement.prototype = {
+	_queries: null,
+
+	test: function() {
+		return DH.query(this._queries.join(', ')).length >= this._queries.length;
 	}
 };
 
