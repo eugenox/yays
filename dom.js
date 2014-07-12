@@ -36,10 +36,10 @@ var DH = {
 		}
 	},
 
-	id: bind(unsafeWindow.document.getElementById, unsafeWindow.document),
-	query: bind(unsafeWindow.document.querySelectorAll, unsafeWindow.document),
-	createElement: bind(unsafeWindow.document.createElement, unsafeWindow.document),
-	createTextNode: bind(unsafeWindow.document.createTextNode, unsafeWindow.document),
+	id: bind(document.getElementById, document),
+	query: bind(document.querySelectorAll, document),
+	createElement: bind(document.createElement, document),
+	createTextNode: bind(document.createTextNode, document),
 
 	style: function(node, style) {
 		each(style, node.style.setProperty, node.style);
@@ -145,8 +145,6 @@ var DH = {
 	},
 
 	ready: function(listener) {
-		var document = unsafeWindow.document;
-
 		if (document.readyState == 'loading') {
 			DH.on(document, 'readystatechange', function onStateChange() {
 				DH.un(document, 'readystatechange', onStateChange);

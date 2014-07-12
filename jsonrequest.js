@@ -25,13 +25,13 @@ var JSONRequest = (function() {
 	}
 	// JSONP
 	else {
-		Context.jsonp = [];
+		var counter = 0;
 
 		Request = function(url, parameters, callback) {
 			this._callback = callback;
-			this._id = Context.jsonp.push(bind(this._onLoad, this)) - 1;
+			this._id = 'jsonp_' + counter++;
 
-			parameters.callback = Context.ns.concat('.jsonp[', this._id, ']');
+			parameters.callback = scriptContext.publish(this._id, bind(this._onLoad, this));
 
 			this._scriptNode = document.body.appendChild(DH.build({
 				tag: 'script',
@@ -50,8 +50,9 @@ var JSONRequest = (function() {
 			_onLoad: function(response) {
 				this._callback(response);
 
+				scriptContext.revoke(this._id);
+
 				document.body.removeChild(this._scriptNode);
-				delete Context.jsonp[this._id];
 			}
 		};
 	}

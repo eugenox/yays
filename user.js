@@ -18,15 +18,9 @@ var Meta = {
 	ns:          STRINGIZE(SCRIPT_NS)
 };
 
-/*
- * Script context.
- */
-
-var Context = unsafeWindow[Meta.ns] = {
-	ns: Meta.ns
-};
-
 #include "util.js"
+
+#include "context.js"
 
 #include "console.js"
 
@@ -121,10 +115,10 @@ function onReady(player) {
 function onPlayerReady() {
 	try {
 		each(DH.query('video, embed'), function(i, node) {
-			var player = DH.closest(node, bind(Player.test, Player));
+			var player = DH.closest(DH.unwrap(node), bind(Player.test, Player));
 
 			if (player) {
-				player = Player.initialize(DH.unwrap(player));
+				player = Player.initialize(player);
 
 				if (player.isVideoLoaded()) {
 					onReady(player);
@@ -144,9 +138,9 @@ function onPlayerReady() {
 	}
 }
 
-unsafeWindow.onYouTubePlayerReady = intercept(unsafeWindow.onYouTubePlayerReady, asyncProxy(onPlayerReady));
+pageContext.publish('onYouTubePlayerReady', intercept(unsafeWindow.onYouTubePlayerReady, asyncProxy(onPlayerReady)));
 
-onPlayerReady();
+DH.ready(onPlayerReady);
 
 } // YAYS
 

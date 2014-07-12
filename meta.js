@@ -22,6 +22,7 @@
 // @include     http*://youtube.com/ASTERIX
 // @run-at      document-start
 // @noframes
+// @grant       unsafeWindow
 // @grant       GM_deleteValue
 // @grant       GM_getValue
 // @grant       GM_setValue

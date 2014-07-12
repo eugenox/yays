@@ -80,13 +80,11 @@ Player.prototype = {
 	},
 
 	_addStateChangeListener: function() {
-		Context.onPlayerStateChange = asyncProxy(bind(this._onStateChange, this));
-		this.addEventListener('onStateChange', Context.ns + '.onPlayerStateChange');
+		this.addEventListener('onStateChange', scriptContext.publish('onPlayerStateChange', asyncProxy(bind(this._onStateChange, this))));
 	},
 
 	_removeStateChangeListener: function() {
-		Context.onPlayerStateChange = noop;
-		this.removeEventListener('onStateChange', Context.ns + '.onPlayerStateChange');
+		this.removeEventListener('onStateChange', scriptContext.publish('onPlayerStateChange', noop));
 	},
 
 	invalidate: function() {
