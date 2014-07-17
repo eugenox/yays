@@ -20,7 +20,7 @@
 // @license     MIT License
 // @include     http*://ASTERIX.youtube.com/ASTERIX
 // @include     http*://youtube.com/ASTERIX
-// @run-at      document-start
+// @run-at      document-end
 // @noframes
 // @grant       unsafeWindow
 // @grant       GM_deleteValue

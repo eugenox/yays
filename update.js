@@ -6,7 +6,7 @@
  * Update checker.
  */
 
-DH.ready(function() {
+(function() {
 	if (new Date().valueOf() - Number(Config.get('update_checked_at')) < EVALUATE(24 * 3600 * 1000)) { // 1 day
 		return;
 	}
@@ -121,6 +121,6 @@ DH.ready(function() {
 		removePopup();
 		unsafeWindow.open(buildURL(Meta.site + '/download', {version: Meta.version}));
 	}
-});
+})();
 
 #endif

@@ -142,18 +142,5 @@ var DH = {
 		} while ((node = node.parentNode) && node.nodeType == this.ELEMENT_NODE);
 
 		return null;
-	},
-
-	ready: function(listener) {
-		if (document.readyState == 'loading') {
-			DH.on(document, 'readystatechange', function onStateChange() {
-				DH.un(document, 'readystatechange', onStateChange);
-
-				listener();
-			});
-		}
-		else {
-			listener();
-		}
 	}
 };

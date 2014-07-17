@@ -78,38 +78,36 @@ function onReady(player) {
 	videoQuality.apply();
 	videoPlayback.apply();
 
-	DH.ready(function() {
-		if (Watch7UI.requirement.test()) {
-			playerSize.apply();
+	if (Watch7UI.requirement.test()) {
+		playerSize.apply();
 
-			UI.initialize(Watch7UI, [
-				new VideoQuality.Button(videoQuality),
-				new PlayerSize.Button(playerSize),
-				new VideoPlayback.Button(videoPlayback)
-			]);
-		}
-		else if (Watch8UI.requirement.test()) {
-			playerSize.apply();
+		UI.initialize(Watch7UI, [
+			new VideoQuality.Button(videoQuality),
+			new PlayerSize.Button(playerSize),
+			new VideoPlayback.Button(videoPlayback)
+		]);
+	}
+	else if (Watch8UI.requirement.test()) {
+		playerSize.apply();
 
-			UI.initialize(Watch8UI, [
-				new VideoQuality.Button(videoQuality),
-				new PlayerSize.Button(playerSize),
-				new VideoPlayback.Button(videoPlayback)
-			]);
-		}
-		else if (ChannelUI.requirement.test()) {
-			UI.initialize(ChannelUI, [
-				new VideoQuality.Button(videoQuality),
-				new VideoPlayback.Button(videoPlayback)
-			]);
-		}
-		else if (FeatherUI.requirement.test()) {
-			UI.initialize(FeatherUI, [
-				new VideoQuality.Button(videoQuality),
-				new VideoPlayback.Button(videoPlayback)
-			]);
-		}
-	});
+		UI.initialize(Watch8UI, [
+			new VideoQuality.Button(videoQuality),
+			new PlayerSize.Button(playerSize),
+			new VideoPlayback.Button(videoPlayback)
+		]);
+	}
+	else if (ChannelUI.requirement.test()) {
+		UI.initialize(ChannelUI, [
+			new VideoQuality.Button(videoQuality),
+			new VideoPlayback.Button(videoPlayback)
+		]);
+	}
+	else if (FeatherUI.requirement.test()) {
+		UI.initialize(FeatherUI, [
+			new VideoQuality.Button(videoQuality),
+			new VideoPlayback.Button(videoPlayback)
+		]);
+	}
 }
 
 function onPlayerReady() {
@@ -140,7 +138,7 @@ function onPlayerReady() {
 
 pageContext.publish('onYouTubePlayerReady', intercept(unsafeWindow.onYouTubePlayerReady, asyncProxy(onPlayerReady)));
 
-DH.ready(onPlayerReady);
+onPlayerReady();
 
 } // YAYS
 

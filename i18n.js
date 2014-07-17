@@ -4,8 +4,6 @@
 
 var _ = (function() {
 #include "i18n/vocabulary.js"
-	var dictionary = {};
-
 	function translation(language) {
 		switch (language) {
 #include "i18n/hu.js"
@@ -27,15 +25,9 @@ var _ = (function() {
 		return [];
 	}
 
-	function TranslationMixin(text) {
-		this.toString = this.valueOf = function() { return dictionary[text] || text; };
-	}
-
-	DH.ready(function() {
-		dictionary = combine(vocabulary, translation((document.documentElement.lang || 'en').substr(0, 2)));
-	});
+	var dictionary = combine(vocabulary, translation((document.documentElement.lang || 'en').substr(0, 2)));
 
 	return function(text) {
-		return merge(new String(text), new TranslationMixin(text));
+		return dictionary[text] || text;
 	};
 })();
