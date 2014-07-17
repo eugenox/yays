@@ -25,11 +25,9 @@ var JSONRequest = (function() {
 	}
 	// JSONP
 	else {
-		var counter = 0;
-
 		Request = function(url, parameters, callback) {
 			this._callback = callback;
-			this._id = 'jsonp_' + counter++;
+			this._id = 'jsonp_' + Request.counter++;
 
 			parameters.callback = scriptContext.publish(this._id, bind(this._onLoad, this));
 
@@ -41,6 +39,8 @@ var JSONRequest = (function() {
 				}
 			}));
 		};
+
+		Request.counter = 0;
 
 		Request.prototype = {
 			_callback: null,
