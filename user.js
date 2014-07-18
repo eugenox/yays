@@ -136,9 +136,25 @@ function onPlayerReady() {
 	}
 }
 
-pageContext.publish('onYouTubePlayerReady', intercept(unsafeWindow.onYouTubePlayerReady, asyncProxy(onPlayerReady)));
-
 onPlayerReady();
+
+// FIXME: The call to an exported function is rejected if a function (or an
+// object with methods) is passed as argument.
+//
+// This restriction can be lifted in FF 33+ by setting the 'allowCallbacks'
+// option when exporting the function.
+
+var node = DH.build({
+	tag: 'script',
+	attributes: {
+		'type': 'text/javascript'
+	}
+});
+
+node.text = 'function onYouTubePlayerReady() { ' + scriptContext.publish('onPlayerReady', intercept(unsafeWindow.onYouTubePlayerReady, asyncProxy(onPlayerReady))) + '(); }';
+
+document.documentElement.appendChild(node);
+document.documentElement.removeChild(node);
 
 } // YAYS
 
