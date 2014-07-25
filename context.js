@@ -22,8 +22,12 @@ var Context = (function() {
 			return unsafeWindow[namespace] = {};
 		},
 
+		protect: function(entity) {
+			return entity;
+		},
+
 		publish: function(name, entity) {
-			this._scope[name] = entity;
+			this._scope[name] = this.protect(entity);
 
 			return this._ns + '.' + name;
 		},
@@ -45,18 +49,14 @@ var Context = (function() {
 				return createObjectIn(unsafeWindow, {defineAs: namespace});
 			},
 
-			publish: function(name, entity) {
+			protect: function(entity) {
 				switch (typeof entity) {
 					case 'function':
-						entity = exportFunction(entity, this._scope);
-						break;
+						return exportFunction(entity, this._scope);
 
 					case 'object':
-						entity = cloneInto(entity, this._scope);
-						break;
+						return cloneInto(entity, this._scope);
 				}
-
-				return BasicContext.prototype.publish.call(this, name, entity);
 			}
 		});
 	}

@@ -17,7 +17,7 @@ function VideoPlayback(player) {
 			}
 			// Video is opened in a background tab.
 			else {
-				this._handler = bind(this._handler, this);
+				this._handler = pageContext.protect(bind(this._handler, this));
 
 				DH.on(unsafeWindow, 'focus', this._handler);
 				DH.on(unsafeWindow, 'blur', this._handler);
