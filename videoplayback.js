@@ -34,7 +34,7 @@ VideoPlayback.prototype = extend(SilentPlayerOption, {
 		switch (e.type) {
 			case 'focus':
 				if (this._timer === null) {
-					this._timer = setTimeout(bind(function() {
+					this._timer = window.setTimeout(bind(function() {
 						if (this._applied) {
 							this._player.resetState();
 							this._player.playVideo();

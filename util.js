@@ -115,7 +115,7 @@ function intercept(original, extension) {
 }
 
 function asyncCall(func, scope, args) {
-	setTimeout(bind(func, scope, args), 0);
+	window.setTimeout(bind(func, scope, args), 0);
 }
 
 function asyncProxy(func) {
