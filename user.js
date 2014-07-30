@@ -113,10 +113,10 @@ function onReady(player) {
 function onPlayerReady() {
 	try {
 		each(DH.query('video, embed'), function(i, node) {
-			var player = DH.closest(DH.unwrap(node), bind(Player.test, Player));
+			var player = DH.closest(node, function(node) { return Player.test(DH.unwrap(node)); });
 
 			if (player) {
-				player = Player.initialize(player);
+				player = Player.initialize(DH.unwrap(player));
 
 				if (player.isVideoLoaded()) {
 					onReady(player);
