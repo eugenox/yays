@@ -218,44 +218,12 @@ FlashPlayer.prototype = extend(Player, {
  */
 function HTML5Player(element) {
 	Player.call(this, element);
-
-	this._state = element.getPlayerState();
 }
 
 HTML5Player.prototype = extend(Player, {
-	_state: null,
-
-	_onStateChange: function(state) {
-		this._state = state;
-
-		Player.prototype._onStateChange.call(this, state);
-	},
-
-	getPlayerState: function() {
-		return this._state;
-	},
-
 	restartPlayback: function() {
 		Player.prototype.restartPlayback.call(this);
 
 		this.restartPlayback = noop;
-	},
-
-	playVideo: function() {
-		Player.prototype.playVideo.call(this);
-
-		this._state = Player.PLAYING;
-	},
-
-	pauseVideo: function() {
-		Player.prototype.pauseVideo.call(this);
-
-		this._state = Player.PAUSED;
-	},
-
-	stopVideo: function() {
-		Player.prototype.stopVideo.call(this);
-
-		this._state = Player.CUED;
 	}
 });
