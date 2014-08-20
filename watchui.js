@@ -81,10 +81,10 @@ function Watch8UI(buttons) {
 	WatchUI.call(this, buttons);
 
 	DH.append(DH.id('watch8-secondary-actions'), this.button);
-	DH.append(DH.id('watch8-action-panels'), this.panel);
+	DH.append(DH.id('watch-action-panels'), this.panel);
 }
 
-Watch8UI.requirement = new UI.Requirement(['#page.watch #watch8-secondary-actions', '#page.watch #watch8-action-panels']);
+Watch8UI.requirement = new UI.Requirement(['#page.watch #watch8-secondary-actions', '#page.watch #watch-action-panels']);
 
 Watch8UI.prototype = extend(WatchUI, {
 	_def: {
@@ -95,7 +95,7 @@ Watch8UI.prototype = extend(WatchUI, {
 					tag: 'button',
 					attributes: {
 						'type': 'button',
-						'class': 'action-panel-trigger yt-uix-button yt-uix-button-default yt-uix-button-empty yt-uix-button-has-icon yt-uix-button-opacity yt-uix-button-size-default yt-uix-tooltip',
+						'class': 'action-panel-trigger yt-uix-button yt-uix-button-empty yt-uix-button-has-icon yt-uix-button-opacity yt-uix-button-opacity yt-uix-button-size-default yt-uix-tooltip',
 						'data-button-toggle': 'true',
 						'data-trigger-for': 'action-panel-yays',
 						'data-tooltip-text': _('Player settings')
