@@ -61,6 +61,7 @@ PlayerSize.prototype = extend(PlayerOption, {
 
 			case 1: // WIDE
 				rules.push(
+					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_WIDTH_SMALL, '"],'),
 					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_WIDTH_SMALL, '"] {'),
 						CONCATENATE('transform: matrix', EVALUATE(TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL)), ' !important;'),
 						CONCATENATE('-o-transform: matrix', EVALUATE(TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL)), ' !important;'),
