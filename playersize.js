@@ -7,7 +7,6 @@ function PlayerSize(player) {
 
 #define CONTENT_WIDTH       1040
 #define CONTROL_HEIGHT        30
-#define THEATER_CORRECTION    10
 #define PLAYER_WIDTH_SMALL   640
 #define PLAYER_HEIGHT_SMALL  360
 #define PLAYER_WIDTH_MEDIUM  854
@@ -35,11 +34,9 @@ PlayerSize.prototype = extend(PlayerOption, {
 					'.watch-medium .player-width {',
 						CONCATENATE('width: ', CONTENT_WIDTH, 'px !important;'),
 					'}',
-					'.watch-medium .player-height {',
-						CONCATENATE('height: ', EVALUATE(CONTENT_WIDTH / PLAYER_RATIO(MEDIUM) + CONTROL_HEIGHT), 'px !important;'),
-					'}',
+					'.watch-medium .player-height,',
 					'.watch-medium #theater-background {',
-						CONCATENATE('height: ', EVALUATE(CONTENT_WIDTH / PLAYER_RATIO(MEDIUM) + CONTROL_HEIGHT + THEATER_CORRECTION), 'px !important;'),
+						CONCATENATE('height: ', EVALUATE(CONTENT_WIDTH / PLAYER_RATIO(MEDIUM) + CONTROL_HEIGHT), 'px !important;'),
 					'}',
 					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_WIDTH_SMALL, '"],'),
 					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_WIDTH_SMALL, '"] {'),
