@@ -10,7 +10,7 @@ function ChannelUI(buttons) {
 	});
 }
 
-ChannelUI.requirement = new UI.Requirement('#page.channel #channel-navigation-menu');
+ChannelUI.requirement = new UI.Requirement('#channel-navigation-menu');
 
 ChannelUI.prototype = extend(UI, {
 	_def: {

@@ -34,7 +34,7 @@ function Watch7UI(buttons) {
 	DH.append(DH.id('watch7-action-panels'), this.panel);
 }
 
-Watch7UI.requirement = new UI.Requirement(['#page.watch #watch7-secondary-actions', '#page.watch #watch7-action-panels']);
+Watch7UI.requirement = new UI.Requirement(['#watch7-secondary-actions', '#watch7-action-panels']);
 
 Watch7UI.prototype = extend(WatchUI, {
 	_def: {
