@@ -5,7 +5,7 @@ function PlayerSize(player) {
 	PlayerOption.call(this, player, 'player_size');
 }
 
-#define CONTENT_WIDTH       1040
+#define CONTENT_WIDTH       1066
 #define CONTROL_HEIGHT        30
 #define PLAYER_WIDTH_SMALL   640
 #define PLAYER_HEIGHT_SMALL  360
