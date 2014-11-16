@@ -102,12 +102,6 @@ function onReady(player) {
 			new VideoPlayback.Button(videoPlayback)
 		]);
 	}
-	else if (FeatherUI.requirement.test()) {
-		UI.initialize(FeatherUI, [
-			new VideoQuality.Button(videoQuality),
-			new VideoPlayback.Button(videoPlayback)
-		]);
-	}
 }
 
 function onPlayerReady() {

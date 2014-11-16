@@ -137,5 +137,3 @@ UI.Requirement.prototype = {
 #include "watchui.js"
 
 #include "channelui.js"
-
-#include "featherui.js"
