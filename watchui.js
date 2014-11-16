@@ -14,10 +14,6 @@ WatchUI.prototype = extend(UI, {
 					'class': 'action-panel-content hid',
 					'data-panel-loaded': 'true'
 				},
-				style: {
-					'display': 'none',
-					'color': '#333'
-				},
 				children: UI.prototype._def.panel(content)
 			};
 		}
@@ -45,7 +41,7 @@ Watch8UI.prototype = extend(WatchUI, {
 					tag: 'button',
 					attributes: {
 						'type': 'button',
-						'class': 'action-panel-trigger yt-uix-button yt-uix-button-empty yt-uix-button-has-icon yt-uix-button-opacity yt-uix-button-opacity yt-uix-button-size-default yt-uix-tooltip',
+						'class': 'action-panel-trigger yt-uix-button yt-uix-button-empty yt-uix-button-has-icon yt-uix-button-opacity yt-uix-button-size-default yt-uix-tooltip',
 						'data-button-toggle': 'true',
 						'data-trigger-for': 'action-panel-yays',
 						'data-tooltip-text': _('Player settings')
