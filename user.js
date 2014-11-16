@@ -78,16 +78,7 @@ function onReady(player) {
 	videoQuality.apply();
 	videoPlayback.apply();
 
-	if (Watch7UI.requirement.test()) {
-		playerSize.apply();
-
-		UI.initialize(Watch7UI, [
-			new VideoQuality.Button(videoQuality),
-			new PlayerSize.Button(playerSize),
-			new VideoPlayback.Button(videoPlayback)
-		]);
-	}
-	else if (Watch8UI.requirement.test()) {
+	if (Watch8UI.requirement.test()) {
 		playerSize.apply();
 
 		UI.initialize(Watch8UI, [

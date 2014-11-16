@@ -25,56 +25,6 @@ WatchUI.prototype = extend(UI, {
 });
 
 /**
- * @class Watch7UI
- */
-function Watch7UI(buttons) {
-	WatchUI.call(this, buttons);
-
-	DH.append(DH.id('watch7-secondary-actions'), this.button);
-	DH.append(DH.id('watch7-action-panels'), this.panel);
-}
-
-Watch7UI.requirement = new UI.Requirement(['#watch7-secondary-actions', '#watch7-action-panels']);
-
-Watch7UI.prototype = extend(WatchUI, {
-	_def: {
-		button: function(click) {
-			return {
-				tag: 'span',
-				children: {
-					tag: 'button',
-					attributes: {
-						'type': 'button',
-						'role': 'button',
-						'class': 'action-panel-trigger yt-uix-button yt-uix-button-text yt-uix-button-empty yt-uix-tooltip',
-						'data-button-toggle': 'true',
-						'data-trigger-for': 'action-panel-yays',
-						'data-tooltip-text': _('Player settings')
-					},
-					listeners: {
-						'click': click
-					},
-					children: {
-						tag: 'span',
-						attributes: {
-							'class': 'yt-uix-button-icon-wrapper'
-						},
-						children: [UI.prototype._def.icon(), {
-							tag: 'span',
-							attributes: {
-								'class': 'yt-uix-button-valign'
-							}
-						}]
-					}
-				}
-			};
-		},
-
-		panel: WatchUI.prototype._def.panel
-	}
-});
-
-/**
  * @class Watch8UI
  */
 function Watch8UI(buttons) {
