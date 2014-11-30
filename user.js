@@ -97,20 +97,17 @@ function onReady(player) {
 
 function onPlayerReady() {
 	try {
-		each(DH.query('video, embed'), function(i, node) {
+		var nodes = DH.query('video, embed'), single = nodes.length == 1;
+
+		each(nodes, function(i, node) {
 			var player = DH.closest(node, function(node) { return Player.test(DH.unwrap(node)); });
 
-			if (player) {
+			if (player && (single || Player.visible(player))) {
 				player = Player.initialize(DH.unwrap(player));
 
-				if (player.isVideoLoaded()) {
-					onReady(player);
+				onReady(player);
 
-					throw 'Initialization finished';
-				}
-				else {
-					player.invalidate();
-				}
+				throw 'Initialization finished';
 			}
 		});
 

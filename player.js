@@ -29,6 +29,12 @@ merge(Player, {
 		return typeof element.getApiInterface == 'function';
 	},
 
+	visible: function(element) {
+		return ! DH.closest(element, function(node) {
+			return node.offsetWidth == 0 || node.offsetHeight == 0 || node.offsetTop <= -node.offsetHeight || node.offsetLeft <= -node.offsetWidth;
+		});
+	},
+
 	create: function(element) {
 		switch (element.tagName) {
 			case 'EMBED':
@@ -103,10 +109,6 @@ Player.prototype = {
 
 	isPlayerState: function() {
 		return Array.prototype.indexOf.call(arguments, this.getPlayerState()) > -1;
-	},
-
-	isVideoLoaded: function() {
-		return Boolean(this.getVideoId());
 	},
 
 	getVideoId: function() {
