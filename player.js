@@ -1,8 +1,10 @@
 /**
  * @class Player
  */
-function Player(element) {
+function Player(element, index) {
 	this._element = element;
+	this._index = index;
+	this._context = new Context(scriptContext, 'player' + index);
 
 	this._exportApiInterface();
 
@@ -23,44 +25,51 @@ merge(Player, {
 	BUFFERING: 3,
 	CUED: 5,
 
-	instance: null,
+	_elements: [],
 
 	test: function(element) {
 		return typeof element.getApiInterface == 'function';
 	},
 
-	visible: function(element) {
-		return ! DH.closest(element, function(node) {
-			return node.offsetWidth == 0 || node.offsetHeight == 0 || node.offsetTop <= -node.offsetHeight || node.offsetLeft <= -node.offsetWidth;
-		});
-	},
-
-	create: function(element) {
+	create: function(element, index) {
 		switch (element.tagName) {
 			case 'EMBED':
-				return new FlashPlayer(element);
+				return new FlashPlayer(element, index);
 			case 'DIV':
-				return new HTML5Player(element);
+				return new HTML5Player(element, index);
 		}
 
 		throw 'Unknown player type';
 	},
 
 	initialize: function(element) {
-		if (this.instance) {
-			if (this.instance._element === element) {
-				throw 'Player already initialized';
-			}
-
-			this.instance.invalidate();
+		if (this._elements.indexOf(element) > -1) {
+			throw 'Player already initialized';
 		}
 
-		return this.instance = this.create(element);
+		var index = this._elements.indexOf(null);
+
+		if (index > -1) {
+			this._elements[index] = element;
+		}
+		else {
+			index = this._elements.push(element) - 1;
+		}
+
+		return this.create(element, index);
+	},
+
+	invalidate: function(player) {
+		this._elements[player._index] = null;
+
+		player.invalidate();
 	}
 });
 
 Player.prototype = {
 	_element: null,
+	_index: null,
+	_context: null,
 	_muted: 0,
 
 	_exportApiInterface: function() {
@@ -86,11 +95,11 @@ Player.prototype = {
 	},
 
 	_addStateChangeListener: function() {
-		this.addEventListener('onStateChange', scriptContext.publish('onPlayerStateChange', asyncProxy(bind(this._onStateChange, this))));
+		this.addEventListener('onStateChange', this._context.publish('onPlayerStateChange', asyncProxy(bind(this._onStateChange, this))));
 	},
 
 	_removeStateChangeListener: function() {
-		this.removeEventListener('onStateChange', scriptContext.publish('onPlayerStateChange', noop));
+		this.removeEventListener('onStateChange', this._context.publish('onPlayerStateChange', noop));
 	},
 
 	invalidate: function() {
@@ -182,8 +191,8 @@ Player.prototype = {
 /**
  * @class FlashPlayer
  */
-function FlashPlayer(element) {
-	Player.call(this, element);
+function FlashPlayer(element, index) {
+	Player.call(this, element, index);
 }
 
 FlashPlayer.prototype = extend(Player, {
@@ -218,8 +227,8 @@ FlashPlayer.prototype = extend(Player, {
 /**
  * @class HTML5Player
  */
-function HTML5Player(element) {
-	Player.call(this, element);
+function HTML5Player(element, index) {
+	Player.call(this, element, index);
 }
 
 HTML5Player.prototype = extend(Player, {

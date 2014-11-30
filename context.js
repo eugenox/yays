@@ -3,10 +3,10 @@
  */
 
 var Context = (function() {
-	function BasicContext(namespace) {
-		if (namespace) {
-			this._scope = this._createNamespace(namespace);
-			this._ns = namespace;
+	function BasicContext(context, namespace) {
+		if (context) {
+			this._scope = this._createNamespace(context._scope, namespace);
+			this._ns = context._ns + '.' + namespace;
 		}
 		else {
 			this._scope = unsafeWindow;
@@ -18,8 +18,8 @@ var Context = (function() {
 		_scope: null,
 		_ns: null,
 
-		_createNamespace: function(namespace) {
-			return unsafeWindow[namespace] = {};
+		_createNamespace: function(scope, name) {
+			return scope[name] = {};
 		},
 
 		protect: function(entity) {
@@ -40,13 +40,13 @@ var Context = (function() {
 	var Context;
 
 	if (typeof exportFunction == 'function') {
-		Context = function(namespace) {
-			BasicContext.call(this, namespace);
+		Context = function(context, namespace) {
+			BasicContext.call(this, context, namespace);
 		};
 
 		Context.prototype = extend(BasicContext, {
-			_createNamespace: function(namespace) {
-				return createObjectIn(unsafeWindow, {defineAs: namespace});
+			_createNamespace: function(scope, name) {
+				return createObjectIn(scope, {defineAs: name});
 			},
 
 			protect: function(entity) {
@@ -68,5 +68,5 @@ var Context = (function() {
 })();
 
 var
-	scriptContext = new Context(Meta.ns),
-	pageContext = new Context();
+	pageContext = new Context(),
+	scriptContext = new Context(pageContext, Meta.ns);

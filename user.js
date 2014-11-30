@@ -69,7 +69,7 @@ function onReady(player) {
 			}
 		}
 		catch (e) {
-			player.invalidate();
+			Player.invalidate(player);
 
 			asyncCall(onPlayerReady);
 		}
@@ -96,26 +96,22 @@ function onReady(player) {
 }
 
 function onPlayerReady() {
-	try {
-		var nodes = DH.query('video, embed'), single = nodes.length == 1;
+	each(DH.query('video, embed'), function(i, node) {
+		var player = DH.closest(node, function(node) { return Player.test(DH.unwrap(node)); });
 
-		each(nodes, function(i, node) {
-			var player = DH.closest(node, function(node) { return Player.test(DH.unwrap(node)); });
-
-			if (player && (single || Player.visible(player))) {
+		if (player) {
+			try {
 				player = Player.initialize(DH.unwrap(player));
 
 				onReady(player);
 
-				throw 'Initialization finished';
+				Console.debug('Initialization finished');
 			}
-		});
-
-		throw 'Player not found';
-	}
-	catch (e) {
-		Console.debug(e);
-	}
+			catch (e) {
+				Console.debug(e);
+			}
+		}
+	});
 }
 
 onPlayerReady();
