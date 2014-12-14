@@ -7,7 +7,7 @@
 #define MIGRATION(_version) version: STRINGIZE(_version), apply: function()
 
 (function(currentVersion) {
-	var previousVersion = Config.get('version') || '1.0';
+	var previousVersion = Config.get('version') || scriptStorage.getItem('version') || '1.0';
 
 	if (previousVersion == currentVersion) {
 		return;
@@ -48,6 +48,20 @@
 				if (videoQuality > 6) {
 					Config.set('video_quality', ++videoQuality);
 				}
+			}
+		},
+		{
+			// Using a unique ScopedStorage for config outside of GM.
+			MIGRATION(1.14) {
+				each(['video_playback', 'video_quality', 'player_size', 'version'], function(i, key) {
+					var value = scriptStorage.getItem(key);
+
+					if (value) {
+						Config.set(key, value);
+
+						scriptStorage.removeItem(key);
+					}
+				});
 			}
 		}
 	], function(i, migration) {

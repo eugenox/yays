@@ -12,18 +12,20 @@ var Config = (function() {
 		};
 	}
 
+	var configStorage = new ScopedStorage(scriptStorage, 'config');
+
 	// HTML5
 	return {
 		get: function(key) {
-			return scriptStorage.getItem(key);
+			return configStorage.getItem(key);
 		},
 
 		set: function(key, value) {
-			scriptStorage.setItem(key, value);
+			configStorage.setItem(key, value);
 		},
 
 		del: function(key) {
-			scriptStorage.removeItem(key);
+			configStorage.removeItem(key);
 		}
 	};
 })();
