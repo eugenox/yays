@@ -2,7 +2,7 @@
  * Configuration handler singleton.
  */
 
-var Config = (function(namespace) {
+var Config = (function() {
 	// Greasemonkey compatible
 	if (typeof GM_getValue == 'function') {
 		return {
@@ -15,15 +15,15 @@ var Config = (function(namespace) {
 	// HTML5
 	return {
 		get: function(key) {
-			return unsafeWindow.localStorage.getItem(namespace + '.' + key);
+			return scriptStorage.getItem(key);
 		},
 
 		set: function(key, value) {
-			unsafeWindow.localStorage.setItem(namespace + '.' + key, value);
+			scriptStorage.setItem(key, value);
 		},
 
 		del: function(key) {
-			unsafeWindow.localStorage.removeItem(namespace + '.' + key);
+			scriptStorage.removeItem(key);
 		}
 	};
-})(Meta.ns);
+})();
