@@ -10,7 +10,7 @@ function Player(element, index) {
 
 	Console.debug('Player ready');
 
-	this._muted = Number(this.isMuted());
+	this._muted = Number(this.isMuted() && ! Number(Player._storage.getItem('muted')));
 
 	this._addStateChangeListener();
 }
@@ -26,6 +26,8 @@ merge(Player, {
 	CUED: 5,
 
 	_elements: [],
+
+	_storage: new ScopedStorage(scriptStorage, 'player'),
 
 	test: function(element) {
 		return typeof element.getApiInterface == 'function';
@@ -151,6 +153,8 @@ Player.prototype = {
 		if (! this._muted++) {
 			this._element.mute();
 
+			Player._storage.setItem('muted', '1');
+
 			Console.debug('Player muted');
 		}
 	},
@@ -158,6 +162,8 @@ Player.prototype = {
 	unMute: function() {
 		if (! --this._muted) {
 			this._element.unMute();
+
+			Player._storage.setItem('muted', '0');
 
 			Console.debug('Player unmuted');
 		}

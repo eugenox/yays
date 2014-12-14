@@ -28,6 +28,8 @@ var Meta = {
 
 #include "i18n.js"
 
+#include "storage.js"
+
 #include "config.js"
 
 #include "update.js"
