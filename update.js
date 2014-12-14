@@ -7,14 +7,14 @@
  */
 
 (function() {
-	if (new Date().valueOf() - Number(Config.get('update_checked_at')) < EVALUATE(24 * 3600 * 1000)) { // 1 day
+	if (new Date().valueOf() - Number(scriptStorage.getItem('update_checked_at')) < EVALUATE(24 * 3600 * 1000)) { // 1 day
 		return;
 	}
 
 	var popup = null;
 
 	new JSONRequest(Meta.site + '/changelog', {version: Meta.version}, function(changelog) {
-		Config.set('update_checked_at', new Date().valueOf().toFixed());
+		scriptStorage.setItem('update_checked_at', new Date().valueOf().toFixed());
 
 		if (changelog && changelog.length) {
 			popup = renderPopup(changelog);

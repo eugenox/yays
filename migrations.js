@@ -51,8 +51,9 @@
 			}
 		},
 		{
-			// Using a unique ScopedStorage for config outside of GM.
+			// Introduced the ScopedStorage class.
 			MIGRATION(1.14) {
+				// Using a unique ScopedStorage for config outside of GM.
 				each(['video_playback', 'video_quality', 'player_size', 'version'], function(i, key) {
 					var value = scriptStorage.getItem(key);
 
@@ -62,6 +63,9 @@
 						scriptStorage.removeItem(key);
 					}
 				});
+
+				// Removed from the config.
+				Config.del('update_checked_at');
 			}
 		}
 	], function(i, migration) {
