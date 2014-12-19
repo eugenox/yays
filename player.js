@@ -1,10 +1,9 @@
 /**
  * @class Player
  */
-function Player(element, index) {
+function Player(element) {
 	this._element = element;
-	this._index = index;
-	this._context = new Context(scriptContext, 'player' + index);
+	this._context = new Context(scriptContext, 'player' + Player._elements.indexOf(element));
 
 	this._exportApiInterface();
 
@@ -33,12 +32,12 @@ merge(Player, {
 		return typeof element.getApiInterface == 'function';
 	},
 
-	create: function(element, index) {
+	create: function(element) {
 		switch (element.tagName) {
 			case 'EMBED':
-				return new FlashPlayer(element, index);
+				return new FlashPlayer(element);
 			case 'DIV':
-				return new HTML5Player(element, index);
+				return new HTML5Player(element);
 		}
 
 		throw 'Unknown player type';
@@ -55,14 +54,14 @@ merge(Player, {
 			this._elements[index] = element;
 		}
 		else {
-			index = this._elements.push(element) - 1;
+			this._elements.push(element);
 		}
 
-		return this.create(element, index);
+		return this.create(element);
 	},
 
 	invalidate: function(player) {
-		this._elements[player._index] = null;
+		this._elements[this._elements.indexOf(player._element)] = null;
 
 		player.invalidate();
 	}
@@ -70,7 +69,6 @@ merge(Player, {
 
 Player.prototype = {
 	_element: null,
-	_index: null,
 	_context: null,
 	_muted: 0,
 
@@ -197,8 +195,8 @@ Player.prototype = {
 /**
  * @class FlashPlayer
  */
-function FlashPlayer(element, index) {
-	Player.call(this, element, index);
+function FlashPlayer(element) {
+	Player.call(this, element);
 }
 
 FlashPlayer.prototype = extend(Player, {
@@ -233,8 +231,8 @@ FlashPlayer.prototype = extend(Player, {
 /**
  * @class HTML5Player
  */
-function HTML5Player(element, index) {
-	Player.call(this, element, index);
+function HTML5Player(element) {
+	Player.call(this, element);
 }
 
 HTML5Player.prototype = extend(Player, {
