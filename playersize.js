@@ -5,23 +5,54 @@ function PlayerSize(player) {
 	PlayerOption.call(this, player, 'player_size');
 }
 
-#define CONTENT_WIDTH       1066
-#define CONTROL_HEIGHT        30
-#define PLAYER_WIDTH_SMALL   640
-#define PLAYER_HEIGHT_SMALL  360
-#define PLAYER_WIDTH_MEDIUM  854
-#define PLAYER_HEIGHT_MEDIUM 480
+#define CONTENT_WIDTH        1066
+#define CONTROL_HEIGHT         30
+#define PLAYER_WIDTH_SMALL    640
+#define PLAYER_HEIGHT_SMALL   360
+#define PLAYER_WIDTH_MEDIUM   854
+#define PLAYER_HEIGHT_MEDIUM  480
+#define PLAYER_WIDTH_LARGE   1280
+#define PLAYER_HEIGHT_LARGE   720
 
-#define SMALL(small, medium) small
-#define MEDIUM(small, medium) medium
+#define SMALL(small, medium, large) small
+#define MEDIUM(small, medium, large) medium
+#define LARGE(small, medium, large) large
 
-#define PLAYER_WIDTH(size) size(PLAYER_WIDTH_SMALL, PLAYER_WIDTH_MEDIUM)
-#define PLAYER_HEIGHT(size) size(PLAYER_HEIGHT_SMALL, PLAYER_HEIGHT_MEDIUM)
-#define PLAYER_RATIO(size) (PLAYER_WIDTH(size) / PLAYER_HEIGHT(size))
+#define PLAYER_WIDTH(size)                                                           \
+  size(PLAYER_WIDTH_SMALL, PLAYER_WIDTH_MEDIUM, PLAYER_WIDTH_LARGE)
 
-#define SCALE(target, size) (target / PLAYER_WIDTH(size))
-#define TRANSLATE(target, size, dimension) ((SCALE(target, size) - 1) / 2 * dimension(size))
-#define TRANSFORM(target, size) (SCALE(target, size), 0, 0, SCALE(target, size), TRANSLATE(target, size, PLAYER_WIDTH), TRANSLATE(target, size, PLAYER_HEIGHT))
+#define PLAYER_HEIGHT(size)                                                          \
+  size(PLAYER_HEIGHT_SMALL, PLAYER_HEIGHT_MEDIUM, PLAYER_HEIGHT_LARGE)
+
+#define PLAYER_RATIO(size)                                                           \
+  (PLAYER_WIDTH(size) / PLAYER_HEIGHT(size))
+
+#define SCALE(target, size)                                                          \
+  (target / PLAYER_WIDTH(size))
+
+#define TRANSLATE(target, size, dimension)                                           \
+  ((SCALE(target, size) - 1) / 2 * dimension(size))
+
+#define TRANSFORM(target, size)                                                      \
+  (                  SCALE(target, size),                                      0,    \
+                                       0,                    SCALE(target, size),    \
+   TRANSLATE(target, size, PLAYER_WIDTH), TRANSLATE(target, size, PLAYER_HEIGHT))
+
+#define HTML5_CSS_SELECTOR(level, size)                                              \
+  CONCATENATE(                                                                       \
+    '.watch-', level, ' .html5-video-content[style*="', PLAYER_WIDTH(size), '"], ',  \
+    '.watch-', level, ' .html5-video-content[style*="', PLAYER_HEIGHT(size), '"], ', \
+    '.watch-', level, ' .html5-main-video[style*="', PLAYER_WIDTH(size), '"], ',     \
+    '.watch-', level, ' .html5-main-video[style*="', PLAYER_HEIGHT(size), '"]'       \
+  )
+
+#define HTML5_CSS_TRANSFORM(target, size)                                            \
+  CONCATENATE(                                                                       \
+    'transform: matrix', EVALUATE(TRANSFORM(target, size)), ' !important; ',         \
+    '-o-transform: matrix', EVALUATE(TRANSFORM(target, size)), ' !important; ',      \
+    '-moz-transform: matrix', EVALUATE(TRANSFORM(target, size)), ' !important; ',    \
+    '-webkit-transform: matrix', EVALUATE(TRANSFORM(target, size)), ' !important;'   \
+  )
 
 PlayerSize.prototype = extend(PlayerOption, {
 	apply: function() {
@@ -34,27 +65,20 @@ PlayerSize.prototype = extend(PlayerOption, {
 					'.watch-medium .player-width {',
 						CONCATENATE('width: ', CONTENT_WIDTH, 'px !important;'),
 					'}',
-					'.watch-medium .player-height,',
-					'.watch-medium #theater-background {',
+					'.watch-medium .player-height {',
 						CONCATENATE('height: ', EVALUATE(CONTENT_WIDTH / PLAYER_RATIO(MEDIUM) + CONTROL_HEIGHT), 'px !important;'),
-					'}',
-					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_WIDTH_SMALL, '"],'),
-					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_HEIGHT_SMALL, '"],'),
-					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_WIDTH_SMALL, '"],'),
-					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_HEIGHT_SMALL, '"] {'),
-						CONCATENATE('transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, SMALL)), ' !important;'),
-						CONCATENATE('-o-transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, SMALL)), ' !important;'),
-						CONCATENATE('-moz-transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, SMALL)), ' !important;'),
-						CONCATENATE('-webkit-transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, SMALL)), ' !important;'),
-					'}',
-					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_WIDTH_MEDIUM, '"],'),
-					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_HEIGHT_MEDIUM, '"],'),
-					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_WIDTH_MEDIUM, '"],'),
-					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_HEIGHT_MEDIUM, '"] {'),
-						CONCATENATE('transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, MEDIUM)), ' !important;'),
-						CONCATENATE('-o-transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, MEDIUM)), ' !important;'),
-						CONCATENATE('-moz-transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, MEDIUM)), ' !important;'),
-						CONCATENATE('-webkit-transform: matrix', EVALUATE(TRANSFORM(CONTENT_WIDTH, MEDIUM)), ' !important;'),
+					'}'
+				);
+
+				rules.push(
+					HTML5_CSS_SELECTOR('medium', SMALL), '{',
+						HTML5_CSS_TRANSFORM(CONTENT_WIDTH, SMALL),
+					'}'
+				);
+
+				rules.push(
+					HTML5_CSS_SELECTOR('medium', MEDIUM), '{',
+						HTML5_CSS_TRANSFORM(CONTENT_WIDTH, MEDIUM),
 					'}'
 				);
 
@@ -62,14 +86,8 @@ PlayerSize.prototype = extend(PlayerOption, {
 
 			case 1: // WIDE
 				rules.push(
-					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_WIDTH_SMALL, '"],'),
-					CONCATENATE('.watch-medium .html5-video-content[style*="', PLAYER_HEIGHT_SMALL, '"],'),
-					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_WIDTH_SMALL, '"],'),
-					CONCATENATE('.watch-medium .html5-main-video[style*="', PLAYER_HEIGHT_SMALL, '"] {'),
-						CONCATENATE('transform: matrix', EVALUATE(TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL)), ' !important;'),
-						CONCATENATE('-o-transform: matrix', EVALUATE(TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL)), ' !important;'),
-						CONCATENATE('-moz-transform: matrix', EVALUATE(TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL)), ' !important;'),
-						CONCATENATE('-webkit-transform: matrix', EVALUATE(TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL)), ' !important;'),
+					HTML5_CSS_SELECTOR('medium', SMALL), '{',
+						HTML5_CSS_TRANSFORM(PLAYER_WIDTH_MEDIUM, SMALL),
 					'}'
 				);
 
@@ -80,7 +98,14 @@ PlayerSize.prototype = extend(PlayerOption, {
 		}
 
 		rules.push(
-			'.watch-medium .html5-main-video {',
+			HTML5_CSS_SELECTOR('large', MEDIUM), '{',
+				HTML5_CSS_TRANSFORM(PLAYER_WIDTH_LARGE, MEDIUM),
+			'}'
+		);
+
+		rules.push(
+			'.watch-medium .html5-main-video,',
+			'.watch-large .html5-main-video {',
 				'z-index: -1;',
 			'}'
 		);

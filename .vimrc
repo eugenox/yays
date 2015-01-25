@@ -1,2 +1,2 @@
 " Preprocessor directives.
-autocmd FileType javascript syntax match Comment "^#.*"
+autocmd FileType javascript syntax region Comment start="^#" skip="\\$" end="$"
