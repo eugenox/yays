@@ -61,12 +61,17 @@ PlayerSize.prototype = extend(PlayerOption, {
 		switch (mode) {
 			case 2: // FIT
 				rules.push(
-					'.watch-medium,',
 					'.watch-medium .player-width {',
 						CONCATENATE('width: ', CONTENT_WIDTH, 'px !important;'),
 					'}',
 					'.watch-medium .player-height {',
 						CONCATENATE('height: ', EVALUATE(CONTENT_WIDTH / PLAYER_RATIO(MEDIUM) + CONTROL_HEIGHT), 'px !important;'),
+					'}'
+				);
+
+				rules.push(
+					'.watch-stage-mode #player .player-width {',
+						CONCATENATE('left: ', - CONTENT_WIDTH / 2.0, 'px !important;'),
 					'}'
 				);
 
