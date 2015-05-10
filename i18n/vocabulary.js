@@ -1,1 +1,1 @@
-	var vocabulary = ["Playback", "START", "PAUSE", "STOP", "AUTO PAUSE", "AUTO STOP", "Set default playback state", "Quality", "AUTO", "ORIGINAL", "Set default video quality", "Size", "AUTO", "WIDE", "FIT", "Set default player size", "Player settings", "Help"];
+	var vocabulary = ["Playback", "START", "PAUSE", "STOP", "AUTO PAUSE", "AUTO STOP", "Set default playback state", "Quality", "AUTO", "ORIGINAL", "Set default video quality", "Size", "AUTO", "WIDE", "Set default player size", "Player settings", "Help"];

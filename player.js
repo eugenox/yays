@@ -189,7 +189,9 @@ Player.prototype = {
 		this._element.setPlaybackQuality(quality);
 
 		Console.debug('Quality changed to', quality);
-	}
+	},
+
+	setStageMode: noop
 };
 
 /**
@@ -240,5 +242,9 @@ HTML5Player.prototype = extend(Player, {
 		Player.prototype.restartPlayback.call(this);
 
 		this.restartPlayback = noop;
+	},
+
+	setStageMode: function(enable) {
+		this.setSizeStyle(true, enable);
 	}
 });

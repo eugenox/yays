@@ -1,4 +1,4 @@
-PYTHON := python -B
+PYTHON := python2 -B
 POSTPROCESS := $(PYTHON) utility/postprocess.py
 
 translation:
