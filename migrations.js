@@ -67,6 +67,14 @@
 				// Removed from the config.
 				Config.del('update_checked_at');
 			}
+		},
+		{
+			// Removed "FIT" from player sizes.
+			MIGRATION(1.15) {
+				if (Number(Config.get('player_size')) == 2) {
+					Config.set('player_size', 1);
+				}
+			}
 		}
 	], function(i, migration) {
 		var migrationVersion = map(Number, migration.version.split('.'));
