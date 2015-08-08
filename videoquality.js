@@ -14,7 +14,7 @@ VideoQuality.prototype = extend(SilentPlayerOption, {
 		if (! this._applied) {
 			this.mute(true);
 
-			if (this._player.isPlayerState(Player.PLAYING, Player.PAUSED, Player.BUFFERING)) {
+			if (this._player.isPlayerState(Player.PLAYING, Player.PAUSED)) {
 				this._applied = true;
 
 				var quality = ['tiny', 'small', 'medium', 'large', 'hd720', 'hd1080', 'hd1440', 'highres'][this.get() - 1];
